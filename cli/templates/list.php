@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Valet - Not Found - <?php echo htmlspecialchars($siteName . '.' . $valetConfig['domain']); ?></title>
+        <title>Valet - <?php echo htmlspecialchars($siteName . '.' . $valetConfig['domain']); ?></title>
 
         <style>
             body {
@@ -23,11 +23,10 @@
             }
 
             a {
-                color: #fff;
                 text-decoration: none;
             }
 
-            span {
+            .dir {
                 background: #000;
                 color: #fff;
                 padding-left: 10px;
@@ -35,20 +34,26 @@
                 padding-bottom: 5px;
                 padding-top: 5px;
             }
+
+            .file {
+                color: #000;
+            }
         </style>
     </head>
     <body>
         <div>
-            <h1>Valet could not find directory <span><?php echo htmlspecialchars($siteName); ?></span></h1>
-            <h2>Available sites:</h2>
-            <?php foreach($valetConfig['paths'] as $path): ?>
-                <?php foreach(glob(htmlspecialchars($path) . '/*', GLOB_ONLYDIR) as $site): ?>
-                    <p><span><a href="http://<?php echo htmlspecialchars(basename($site) . '.' . $valetConfig['domain']); ?>"><?php echo htmlspecialchars(basename($site) . '.' . $valetConfig['domain']); ?></a></span></p>
-                <?php endforeach; ?>
-            <?php endforeach; ?>
-            <h2>Checked paths:</h2>
-            <?php foreach($valetConfig['paths'] as $path): ?>
-                <p><span><?php echo htmlspecialchars($path); ?></span></p>
+            <h2>Available items:</h2>
+            <?php foreach(scandir($valetSitePath.$uri) as $item): ?>
+                <?php if (! in_array($item, ['.', '..'])): ?>
+                    <?php if (is_dir($valetSitePath.$uri.'/'.$item)): ?>
+                        <p><a class="dir" href="http://<?= htmlspecialchars($siteName . '.' . $valetConfig['domain']).rtrim($uri, '/').'/'.$item.'/'; ?>">
+                            <?= htmlspecialchars($item); ?></a></p>
+                    <?php else: ?>
+                        <p><a class="file" href="http://<?= htmlspecialchars($siteName . '.' . $valetConfig['domain']).rtrim($uri, '/').'/'.$item; ?>">
+                            <?= htmlspecialchars($item); ?></a></p>
+                    <?php endif ?>
+
+                <?php endif ?>
             <?php endforeach; ?>
         </div>
     </body>

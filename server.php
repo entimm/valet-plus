@@ -119,8 +119,9 @@ $frontControllerPath = $valetDriver->frontControllerPath(
 );
 
 if (! $frontControllerPath) {
-    http_response_code(404);
-    echo 'Did not get front controller from driver. Please return a front controller to be executed.';
+    // http_response_code(404);
+    // echo 'Did not get front controller from driver. Please return a front controller to be executed.';
+    require __DIR__ . '/cli/templates/list.php';
     exit;
 }
 

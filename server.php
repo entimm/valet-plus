@@ -4,7 +4,7 @@
  * Define the user's "~/.valet" path.
  */
 
-define('VALET_HOME_PATH', posix_getpwuid(posix_geteuid())['dir'].'/.valet');
+define('VALET_HOME_PATH', posix_getpwuid(fileowner(__FILE__))['dir'].'/.valet');
 define('VALET_STATIC_PREFIX', '41c270e4-5535-4daa-b23e-c269744c2f45');
 
 /**
@@ -127,11 +127,12 @@ if (! $frontControllerPath) {
 
 chdir(dirname($frontControllerPath));
 
-require 'tools/index.php';
-
 define('SITE_PATH', $valetSitePath);
 define('NOW_TIME', time());
+define('SITE_NAME', $siteName);
 
 unset($domain, $path, $siteName, $uri, $valetConfig, $valetDriver, $valetSitePath);
+
+require 'tools/index.php';
 
 require $frontControllerPath;

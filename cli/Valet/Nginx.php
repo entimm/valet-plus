@@ -3,6 +3,8 @@
 namespace Valet;
 
 use DomainException;
+use Mailhog;
+use Elasticsearch;
 
 class Nginx
 {

@@ -126,6 +126,11 @@ if (! $frontControllerPath) {
 
 chdir(dirname($frontControllerPath));
 
+require 'tools/index.php';
+
+define('SITE_PATH', $valetSitePath);
+define('NOW_TIME', time());
+
 unset($domain, $path, $siteName, $uri, $valetConfig, $valetDriver, $valetSitePath);
 
 require $frontControllerPath;
